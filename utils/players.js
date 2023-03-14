@@ -1,8 +1,9 @@
 class Player{
-    constructor(opponent=null, hand1=1, hand2=1){
+    constructor(opponent=null, hand1=1, hand2=1, turn=false){
         this.hand1 = hand1;
         this.hand2 = hand2;
         this.opponent = opponent;
+        this.turn = turn;
         //ourHand: int, opponentHand: String [key]
         this.hit = function(ourHand, opponentHand){
             this.opponent[opponentHand] += ourHand;
@@ -15,6 +16,18 @@ class Player{
         this.update = function(){
             this.hand1 = this.hand1 >= 5? 0: this.hand1;
             this.hand2 = this.hand2 >= 5? 0: this.hand2;
+            this.turn = !this.turn;
+        }
+    }
+}
+class Observer0{
+    constructor(){
+        this.clients = [];
+        this.subscribe = function(f){
+            this.clients.push(f);
+        }
+        this.update = function(){
+            this.clients.forEach(x => x());
         }
     }
 }
@@ -23,6 +36,10 @@ const player = new Player();
 const opponent = new Player();
 player.opponent = opponent;
 opponent.opponent = player;
+const gameState = new Observer0();
+gameState.subscribe(player.update);
+gameState.subscribe(opponent.update);
 
 module.exports.player = player;
 module.exports.opponent = opponent;
+module.exports.gameState = gameState;
