@@ -4,6 +4,7 @@ class Player{
         this.hand2 = hand2;
         this.opponent = opponent;
         this.turn = turn;
+        this.alive = true;
         //ourHand: int, opponentHand: String [key]
         this.hit = function(ourHand, opponentHand){
             this.opponent[opponentHand] += ourHand;
@@ -17,6 +18,7 @@ class Player{
             this.hand1 = this.hand1 >= 5? 0: this.hand1;
             this.hand2 = this.hand2 >= 5? 0: this.hand2;
             this.turn = !this.turn;
+            this.alive = (this.hand1 == 0 && this.hand2 == 0)? false: true;
         }
     }
 }
