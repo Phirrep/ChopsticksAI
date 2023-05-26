@@ -6,16 +6,21 @@
 </head>
 <body>
     <div class="slidercontainer">
+        <input type="range" min="1" max="5" value="1" class="slider" id="hitSlider">
+    </div>
+    <div class="slidercontainer">
         <input type="range" min="1" max="5" value="1" class="slider" id="splitSlider">
     </div>
     <form>
         <label for="ai">AI</label>
-        <select id="ai" name="ai">
+        <select id="ai" name="ai" position="absolute" left=40px>
             <option value="random">Random</option>
             <!-- <option value="DFS">DFS</option> -->
         </select>
     </form>
-    <script src="utils/players.js"></script>
-    <script src="utils/game.js"></script>
+    <button onclick=startGame()> Select </button>
+    <button id="hit"> Hit </button>
+    <button id="split"> Split </button>
+    <script src="utils/utils.js"></script>
     <script src="index.js"></script>
 </body>
