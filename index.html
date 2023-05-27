@@ -4,7 +4,7 @@
     </div>
 </head>
 <body>
-    <div style="position: absolute; bottom: 400px;">
+    <div id="hand" style="position: absolute; bottom: 400px;">
         <form>
             <label for="target">Target Hand</label>
             <select id="target" name="target">
@@ -13,20 +13,20 @@
             </select>
         </form>
         <form>
-            <label for="hand">Hand to Use</label>
-            <select id="hand" name="hand">
+            <label for="attack">Hand to Use</label>
+            <select id="attack" name="attack">
                 <option value="left">Left Hand</option>
                 <option value="right">Right Hand</option>
             </select> 
         </form>
         <button id="hit" onclick=playerHit() style="position: relative"> Hit </button>
     </div>
-    <div style="position: absolute; bottom: 400px; left: 300px;">
+    <div id="split" style="position: absolute; bottom: 400px; left: 300px;">
         <div class="slidercontainer">
             <input type="range" min="1" max="5" value="1" class="slider" id="splitSlider" style="position: relative">
             <label id="splitValue">1:1</label>
         </div>
-        <button id="split" onclick=playerSplit() style="position: relative"> Split </button>
+        <button onclick=playerSplit() style="position: relative"> Split </button>
     </div>
     <div style="position: absolute; left: 300px;">
         <label>AI Agent</label>
@@ -41,4 +41,5 @@
     
     <script src="utils/utils.js"></script>
     <script src="index.js"></script>
+    <script id="agent" src="agents/random.js"></script>
 </body>

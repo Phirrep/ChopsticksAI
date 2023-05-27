@@ -1,5 +1,5 @@
 class Player{
-    constructor(opponent=null, hand1=2, hand2=4, turn=false){
+    constructor(opponent=null, hand1=1, hand2=1, turn=false){
         this.hand1 = hand1;
         this.hand2 = hand2;
         this.opponent = opponent;
@@ -49,9 +49,6 @@ function checkOpponent(player){
     }
 }
 
-
-
-
 const player = new Player();
 const opponent = new Player();
 player.opponent = opponent;
@@ -63,3 +60,12 @@ gameState.subscribe(() => opponent.update());
 gameState.subscribe(checkOpponent(player));
 gameState.subscribe(checkOpponent(opponent));
 
+class Agent{
+    constructor(opponent){
+        this.opponent = opponent;
+    }
+    getLegalActions(state){
+        return [];
+    }
+
+}

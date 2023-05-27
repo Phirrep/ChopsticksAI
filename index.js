@@ -2,30 +2,21 @@ const splitSlider = document.getElementById("splitSlider");
 const hitSlider = document.getElementById("hitSlider");
 /* splitSlider.style.display = "none"; */
 //Takes in array of buttons that need to be disabled
-function disableButtons(a){
-    for (let i = 0; i < a.length; i++){
-        let element = document.getElementById(a[0]);
-        element.style.display = "none";
-    }
-}
-function changeButtons(command){
-    if (command=="hit"){
-        
+function changeButtons(){
+    if (player.turn){
+        let a = ["hit", "split", "splitSlider", "target", "hand"];
+        a.forEach(x => document.getElementById(x).style.display = "");
     }
     if (!player.turn){
         let a = ["hit", "split", "splitSlider", "target", "hand"]
-        disableButtons(a);
-    }
-    else{
+        a.forEach(x => document.getElementById(x).style.display = "none");
     }
 }
-//gameState.subscribe(changeButtons);
+gameState.subscribe(changeButtons);
 function playerHit(){
     let target = document.getElementById("target").value;
     let playerHand = document.getElementById("hand").value;
     player.hit(playerHand,target);
-    console.log(player);
-    console.log(opponent);
 }
 function playerSplit(){
     let splitValue = document.getElementById("splitValue");
@@ -41,6 +32,14 @@ function startGame(){
     }
     else{
         opponent.turn = true;
+    }
+    let aiForm = document.getElementById("ai");
+    let agent = document.getElementById("agent");
+    if (aiForm.value == "random"){
+        agent.src = "agents/random.js";
+    }
+    else{
+        agent.src = "agents/random.js";
     }
     progress();
 }
