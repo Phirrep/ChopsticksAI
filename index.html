@@ -1,26 +1,44 @@
 <head>
     <div> 
         <b> Chopsticks AI Project </b>
-
     </div>
 </head>
 <body>
-    <div class="slidercontainer">
-        <input type="range" min="1" max="5" value="1" class="slider" id="hitSlider">
+    <div style="position: absolute; bottom: 400px;">
+        <form>
+            <label for="target">Target Hand</label>
+            <select id="target" name="target">
+                <option value="left">Left Hand</option>
+                <option value="right">Right Hand</option>
+            </select>
+        </form>
+        <form>
+            <label for="hand">Hand to Use</label>
+            <select id="hand" name="hand">
+                <option value="left">Left Hand</option>
+                <option value="right">Right Hand</option>
+            </select> 
+        </form>
+        <button id="hit" onclick=playerHit() style="position: relative"> Hit </button>
     </div>
-    <div class="slidercontainer">
-        <input type="range" min="1" max="5" value="1" class="slider" id="splitSlider">
+    <div style="position: absolute; bottom: 400px; left: 300px;">
+        <div class="slidercontainer">
+            <input type="range" min="1" max="5" value="1" class="slider" id="splitSlider" style="position: relative">
+            <label id="splitValue">1:1</label>
+        </div>
+        <button id="split" onclick=playerSplit() style="position: relative"> Split </button>
     </div>
-    <form>
-        <label for="ai">AI</label>
-        <select id="ai" name="ai" position="absolute" left=40px>
-            <option value="random">Random</option>
-            <!-- <option value="DFS">DFS</option> -->
-        </select>
-    </form>
-    <button onclick=startGame()> Select </button>
-    <button id="hit"> Hit </button>
-    <button id="split"> Split </button>
+    <div style="position: absolute; left: 300px;">
+        <label>AI Agent</label>
+        <form>
+            <select id="ai" name="ai" >
+                <option value="random">Random</option>
+                <!-- <option value="DFS">DFS</option> -->
+            </select>
+        </form>
+        <button id="select" onclick=startGame() style="position: relative"> Select </button>
+    </div>
+    
     <script src="utils/utils.js"></script>
     <script src="index.js"></script>
 </body>

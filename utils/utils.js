@@ -1,5 +1,5 @@
 class Player{
-    constructor(opponent=null, hand1=1, hand2=1, turn=false){
+    constructor(opponent=null, hand1=2, hand2=4, turn=false){
         this.hand1 = hand1;
         this.hand2 = hand2;
         this.opponent = opponent;
@@ -9,7 +9,12 @@ class Player{
     }
     //ourHand: int, opponentHand: String [key]
     hit(ourHand, opponentHand){
-        this.opponent[opponentHand] += ourHand;
+        if (opponentHand=="left"){
+            this.opponent.hand1 += ourHand=="left"? this.hand1:this.hand2;
+        }
+        else{
+            this.opponent.hand2 += ourHand=="left"? this.hand1:this.hand2;
+        }
     }
     //Assume value1 + value2 = hand1 + hand2
     split(value1, value2){
