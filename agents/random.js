@@ -1,10 +1,10 @@
 class RandomAgent extends Agent{
-    constructor(opponent){
-        super(opponent);
+    constructor(ai, opponent){
+        super(ai, opponent);
     }
-    findMove(){
-        let actions = this.getLegalActions();
+    findMove(state){
+        let actions = this.getLegalActions(state);
         let action = actions[Math.floor(Math.random()*actions.length)];
-        return action;        
+        executeAction(action);   
     }
 }
