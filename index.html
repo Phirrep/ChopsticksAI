@@ -4,31 +4,53 @@
     </div>
 </head>
 <body>
-    <div id="hand" style="position: absolute; bottom: 400px;">
+    <div id="aiState" style="position: absolute; top: 100px;">
+        <label><b>CPU Hands</b></label>
+        <div style="position: relative; top: 20px">
+            <label for="aiLeftHand">Left Hand</label>
+            <div id="aiLeftHand">1</label>
+        </div>
+        <div style="position: relative; top: -40px; left: 200px">
+            <label for="aiRightHand">Right Hand</label>
+            <div id="aiRightHand">1</label>
+        </div>
+    </div>
+    <div id="playerState" style="position: absolute; top: 150px;">
+        <label><b>Player Hands</b></label>
+        <div style="position: relative; top: 20px;">
+            <label for="playerLeftHand">Left Hand</label>
+            <div id="playerLeftHand">1</div>
+        </div>
+        <div style="position: relative; top: -20px; left: 200px">
+            <label for="playerRightHand">Right hand</label>
+            <div id="playerRightHand">1</div>
+        </div>
+    </div>
+    <div id="hand" style="position: absolute; top: 350px;">
         <form>
             <label for="target">Target Hand</label>
             <select id="target" name="target">
-                <option value="left">Left Hand</option>
-                <option value="right">Right Hand</option>
+                <option id="targetLeft" value="left">Left Hand</option>
+                <option id="targetRight" value="right">Right Hand</option>
             </select>
         </form>
         <form>
             <label for="attack">Hand to Use</label>
             <select id="attack" name="attack">
-                <option value="left">Left Hand</option>
-                <option value="right">Right Hand</option>
+                <option id="attackLeft" value="left">Left Hand</option>
+                <option id="attackRight" value="right">Right Hand</option>
             </select> 
         </form>
         <button id="hit" onclick=playerHit() style="position: relative"> Hit </button>
     </div>
-    <div id="split" style="position: absolute; bottom: 400px; left: 300px;">
+    <div id="split" style="position: absolute; top: 350px; left: 200px;">
         <div class="slidercontainer">
             <input type="range" min="1" max="5" value="1" class="slider" id="splitSlider" style="position: relative">
             <label id="splitValue">1:1</label>
         </div>
         <button onclick=playerSplit() style="position: relative"> Split </button>
     </div>
-    <div style="position: absolute; left: 300px;">
+    <div style="position: absolute; top: 0px; left: 500px;">
         <label>AI Agent</label>
         <form>
             <select id="ai" name="ai" >
@@ -40,6 +62,6 @@
     </div>
     
     <script src="utils/utils.js"></script>
-    <script src="index.js"></script>
     <script id="agent" src="agents/random.js"></script>
+    <script src="index.js"></script>
 </body>

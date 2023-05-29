@@ -5,6 +5,7 @@ class RandomAgent extends Agent{
     findMove(state){
         let actions = this.getLegalActions(state);
         let action = actions[Math.floor(Math.random()*actions.length)];
-        executeAction(action);   
+        this.executeAction(action);  
+        this.printAction(action);
     }
 }

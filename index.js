@@ -12,6 +12,20 @@ function changeButtons(){
         let a = ["hit", "split", "splitSlider", "target", "hand"]
         a.forEach(x => document.getElementById(x).style.display = "none");
     }
+    document.getElementById("targetLeft").style.display = (opponent.hand1 == 0? "none": "");
+    if (opponent.hand1 == 0){
+        document.getElementById("target").value = "right";
+    }
+    document.getElementById("targetRight").style.display = (opponent.hand2 == 0? "none": "");
+    document.getElementById("attackLeft").style.display = (player.hand1 == 0? "none": "");
+    if (player.hand1 == 0){
+        document.getElementById("attack").value = "right";
+    }
+    document.getElementById("attackRight").style.display = (player.hand2 == 0? "none": "");
+    document.getElementById("aiLeftHand").innerHTML = opponent.hand1;
+    document.getElementById("aiRightHand").innerHTML = opponent.hand2;
+    document.getElementById("playerLeftHand").innerHTML = player.hand1;
+    document.getElementById("playerRightHand").innerHTML = player.hand2;
 }
 function switchTurns(){
     player.turn = !player.turn;
@@ -21,7 +35,7 @@ function switchTurns(){
 gameState.subscribe(changeButtons);
 function playerHit(){
     let target = document.getElementById("target").value;
-    let playerHand = document.getElementById("hand").value;
+    let playerHand = document.getElementById("attack").value;
     player.hit(playerHand,target);
     switchTurns();
 }
@@ -41,6 +55,8 @@ function startGame(){
     else{
         opponent.turn = true;
     }
+    player.default();
+    opponent.default();
     let aiForm = document.getElementById("ai");
     let agent = document.getElementById("agent");
     if (aiForm.value == "random"){
@@ -64,21 +80,19 @@ function updateSlider(){
     splitValue.innerHTML = (splitSlider.value-1)+minValue;
     splitValue.innerHTML += ":";
     splitValue.innerHTML += minValue+(splitSlider.max-splitSlider.value);
-
 }
 function progress(){
+    gameState.update();
+    updateSlider();
     if (winner || !player.alive || !opponent.alive){
-        //Need to replace, have code to declare winner
-        window.requestAnimationFrame(progress);
+        console.log(winner);
     }
     else{
         window.requestAnimationFrame(progress);
     }
-
     if (opponent.turn){
         gameAgent.findMove({ai: opponent, opponent: player});
+        gameState.update();
         switchTurns();
     }
-    updateSlider();
-    gameState.update();
 }

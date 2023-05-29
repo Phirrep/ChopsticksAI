@@ -1,11 +1,16 @@
 class Player{
-    constructor(opponent=null, hand1=1, hand2=1, turn=false){
+    constructor(opp=null, hand1=1, hand2=1, turn=false){
         this.hand1 = hand1;
         this.hand2 = hand2;
-        this.opponent = opponent;
+        this.opponent = opp;
         this.turn = turn;
         this.alive = true;
         
+    }
+    default(){
+        this.hand1 = 1;
+        this.hand2 = 1;
+        this.alive = true;
     }
     //ourHand: int, opponentHand: String [key]
     hit(ourHand, opponentHand){
@@ -24,11 +29,11 @@ class Player{
     update(){
         this.hand1 = this.hand1 >= 5? 0: this.hand1;
         this.hand2 = this.hand2 >= 5? 0: this.hand2;
-        this.alive = (this.hand1 == 0 && this.hand2 == 0)? false: true;
+        this.alive = !(this.hand1 == 0 && this.hand2 == 0);
     }
     clone(){
-        let newPlayer = new Player(opponent=null, hand1=this.hand1, hand2=this.hand2, turn=this.turn);
-        let newOpponent = new Player(opponent=null, hand1=this.opponent.hand1, hand2=this.opponent.hand2, turn=this.opponent.turn);
+        let newPlayer = new Player(null, this.hand1, this.hand2, this.turn);
+        let newOpponent = new Player(null, this.opponent.hand1, this.opponent.hand2, this.opponent.turn);
         newPlayer.opponent = newOpponent;
         newOpponent.opponent = newPlayer;
         return newPlayer;
@@ -88,8 +93,9 @@ class Agent{
         let total = ai.hand1 + ai.hand2;
         let minValue = Math.max(0, total-4);
         for (let i = 0; i < total+1-(total > 4? (2*(total%4)):0); i++){
-            actions.push({action: "split", hand1: minValue+i, hand2: total-i});
+            actions.push({action: "split", hand1: minValue+i, hand2: total-(i+minValue)});
         }
+        console.log(actions);
         return actions;
     }
     getSuccessor(state, action){
@@ -114,6 +120,14 @@ class Agent{
         }
         else{
             this.ai.split(action.hand1, action.hand2);
+        }
+    }
+    printAction(action){
+        if (action.action == "hit"){
+            console.log("CPU hits your %s hand with %s hand", action.target, action.attack);
+        }
+        else{
+            console.log("CPU splits to %d fingers and %d fingers", action.hand1, action.hand2);
         }
     }
 }
