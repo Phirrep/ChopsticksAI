@@ -95,7 +95,6 @@ class Agent{
         for (let i = 0; i < total+1-(total > 4? (2*(total%4)):0); i++){
             actions.push({action: "split", hand1: minValue+i, hand2: total-(i+minValue)});
         }
-        console.log(actions);
         return actions;
     }
     getSuccessor(state, action){

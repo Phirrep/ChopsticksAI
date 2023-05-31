@@ -68,12 +68,20 @@ function startGame(){
     opponent.default();
     let aiForm = document.getElementById("ai");
     let agent = document.getElementById("agent");
+    let body = document.getElementsByTagName("body")[0];
+    let script = document.createElement("script");
     if (aiForm.value == "random"){
-        agent.src = "agents/random.js";
+        script.src = "agents/random.js";
+        body.appendChild(script);
         gameAgent = new RandomAgent(opponent, player);
     }
+    else if (aiForm.value == "minimax"){
+        script.src = "agents/minimax.js";
+        script.type = "text/javascript";
+        body.appendChild(script);
+        gameAgent = new MinimaxAgent(opponent, player);
+    }
     else{
-        agent.src = "agents/random.js";
         gameAgent = new RandomAgent(opponent, player);
     }
     progress();
