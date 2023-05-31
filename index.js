@@ -8,7 +8,7 @@ function changeButtons(){
         let a = ["hit", "split", "splitSlider", "target", "hand"];
         a.forEach(x => document.getElementById(x).style.display = "");
     }
-    if (!player.turn){
+    if (!player.turn || winner){
         let a = ["hit", "split", "splitSlider", "target", "hand"]
         a.forEach(x => document.getElementById(x).style.display = "none");
     }
@@ -26,6 +26,15 @@ function changeButtons(){
     document.getElementById("aiRightHand").innerHTML = opponent.hand2;
     document.getElementById("playerLeftHand").innerHTML = player.hand1;
     document.getElementById("playerRightHand").innerHTML = player.hand2;
+    let winnerDisplay = document.getElementById("winnerDisplay");
+    if (winner === player){
+        winnerDisplay.style.display = "";
+        winnerDisplay.innerHTML = "Winner is player!";
+    }
+    else if (winner === opponent){
+        winnerDisplay.style.display = "";
+        winnerDisplay.innerHTML = "Winner is CPU!";
+    }
 }
 function switchTurns(){
     player.turn = !player.turn;
