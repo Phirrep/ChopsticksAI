@@ -1,7 +1,7 @@
 class MinimaxAgent extends Agent{
     constructor(ai, opponent, depth=5){
-        self.depth = depth;
         super(ai, opponent);
+        this.depth = depth;
     }
     getStateValue(state){
         if (!state.ai.alive){
@@ -34,8 +34,8 @@ class MinimaxAgent extends Agent{
         return min;
     }
     findMove(state){
-        let recursiveMinimax = function(state, depth){
-            if (depth == 0 || this.getStateValue(state) != 0){
+        let recursiveMinimax = (state, depth) => {
+            if (depth <= 0 || this.getStateValue(state) != 0){
                 return {ai: state.ai, opponent: state.opponent, value: this.getStateValue(state)};
             }
             let actions = this.getLegalActions(state);
@@ -52,8 +52,10 @@ class MinimaxAgent extends Agent{
                     minStates.push(recursiveMinimax(maxSuccessor, depth-1));
                 }
                 let minValue = this.getMinimum(minStates);
-                minValue.action = actions[i];
-                maxStates.push(minValue);
+                if (minValue){
+                    minValue.action = actions[i];
+                    maxStates.push(minValue);
+                }
             }
             let maxValue = this.getMaximum(maxStates);
             return maxValue;
