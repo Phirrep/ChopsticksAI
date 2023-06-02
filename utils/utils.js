@@ -1,16 +1,29 @@
 class Player{
-    constructor(opp=null, hand1=1, hand2=1, turn=false){
+    constructor(opp=null, hand1=1, hand2=1, turn=false, f=(x,y)=>true, g=(x,y)=>true){
         this.hand1 = hand1;
         this.hand2 = hand2;
         this.opponent = opp;
         this.turn = turn;
         this.alive = true;
-        
+        this.splitRule = f;
+        this.splits = g;
     }
     default(){
         this.hand1 = 1;
         this.hand2 = 1;
         this.alive = true;
+    }
+    setSplitRule(f){
+        this.splitRule = f;
+    }
+    allowSplit(){
+        if (this.splitRule(this.hand1, this.hand2)){
+            return true;
+        }
+    }
+    //Returns valid values for splitting a hand
+    viableSplits(){
+        
     }
     //ourHand: int, opponentHand: String [key]
     hit(ourHand, opponentHand){
@@ -77,6 +90,18 @@ class Agent{
         this.ai = ai;
         this.opponent = opponent;
     }
+    //state => int
+    getStateValue(state){
+        if (!state.ai.alive){
+            return -10;
+        }
+        else if (!state.opponent.alive){
+            return 10;
+        }
+        else{
+            return 0;
+        }
+    }
     //State: {player (opponent), agent (ai)}
     getLegalActions(state){
         let actions = [];
@@ -90,10 +115,12 @@ class Agent{
             if (!opp.hand1 == 0){ actions.push({action: "hit", attack: "right", target: "left"});}
             if (!opp.hand2 == 0){ actions.push({action: "hit", attack: "right", target: "right"});}
         }
-        let total = ai.hand1 + ai.hand2;
-        let minValue = Math.max(0, total-4);
-        for (let i = 0; i < total+1-(total > 4? (2*(total%4)):0); i++){
-            actions.push({action: "split", hand1: minValue+i, hand2: total-(i+minValue)});
+        if (ai.allowSplit()){
+            let total = ai.hand1 + ai.hand2;
+            let minValue = Math.max(0, total-4);
+            for (let i = 0; i < total+1-(total > 4? (2*(total%4)):0); i++){
+                actions.push({action: "split", hand1: minValue+i, hand2: total-(i+minValue)});
+            }
         }
         return actions;
     }

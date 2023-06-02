@@ -3,17 +3,6 @@ class MinimaxAgent extends Agent{
         super(ai, opponent);
         this.depth = depth;
     }
-    getStateValue(state){
-        if (!state.ai.alive){
-            return -10;
-        }
-        else if (!state.opponent.alive){
-            return 10;
-        }
-        else{
-            return 0;
-        }
-    }
     //Assumes states have value
     getMaximum(states){
         let max = states[0];
