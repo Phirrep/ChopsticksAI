@@ -16,6 +16,9 @@ class Player{
     setSplitRule(f){
         this.splitRule = f;
     }
+    setSplits(f){
+        this.splits = f;
+    }
     allowSplit(){
         if (this.splitRule(this.hand1, this.hand2)){
             return true;
@@ -23,7 +26,18 @@ class Player{
     }
     //Returns valid values for splitting a hand
     viableSplits(){
-        
+        if (!this.allowSplit()){
+            return [];
+        }
+        let total = this.hand1 + this.hand2;
+        let minValue = Math.max(0, total-4);
+        let actions = [];
+        for (let i = 0; i < total+1-(total > 4? (2*(total%4)):0); i++){
+            if (this.splits(minValue+i, total-(i+minValue))){
+                actions.push({action: "split", hand1: minValue+i, hand2: total-(i+minValue)});
+            }
+        }
+        return actions;
     }
     //ourHand: int, opponentHand: String [key]
     hit(ourHand, opponentHand){
@@ -45,8 +59,8 @@ class Player{
         this.alive = !(this.hand1 == 0 && this.hand2 == 0);
     }
     clone(){
-        let newPlayer = new Player(null, this.hand1, this.hand2, this.turn);
-        let newOpponent = new Player(null, this.opponent.hand1, this.opponent.hand2, this.opponent.turn);
+        let newPlayer = new Player(null, this.hand1, this.hand2, this.turn, this.splitRule, this.splits);
+        let newOpponent = new Player(null, this.opponent.hand1, this.opponent.hand2, this.opponent.turn, this.opponent.splitRule, this.opponent.splits);
         newPlayer.opponent = newOpponent;
         newOpponent.opponent = newPlayer;
         return newPlayer;
@@ -77,6 +91,27 @@ const player = new Player();
 const opponent = new Player();
 player.opponent = opponent;
 opponent.opponent = player;
+//Set rule for only allowing splits when one hand is empty
+player.setSplitRule((x, y) => x==0? !(y==0):y==0);
+opponent.setSplitRule((x, y) => x==0? !(y==0):y==0);
+let splits = function(p){
+    return (x, y) => {
+        if (p.hand1 == 0){
+            if (x == p.hand2 || y == p.hand2){
+                return false;
+            }
+        }
+        else {
+            if (x == p.hand1 || y == p.hand1){
+                return false;
+            }
+        }
+        return true;
+    }
+}
+player.setSplits(splits(player));
+opponent.setSplits(splits(opponent));
+
 const gameState = new Observer0();
 gameState.subscribe(() => player.update());
 gameState.subscribe(() => opponent.update());
@@ -89,6 +124,9 @@ class Agent{
     constructor(ai, opponent){
         this.ai = ai;
         this.opponent = opponent;
+    }
+    isTerminal(state){
+        return !state.ai.alive || !state.opponent.alive;
     }
     //state => int
     getStateValue(state){
@@ -116,11 +154,7 @@ class Agent{
             if (!opp.hand2 == 0){ actions.push({action: "hit", attack: "right", target: "right"});}
         }
         if (ai.allowSplit()){
-            let total = ai.hand1 + ai.hand2;
-            let minValue = Math.max(0, total-4);
-            for (let i = 0; i < total+1-(total > 4? (2*(total%4)):0); i++){
-                actions.push({action: "split", hand1: minValue+i, hand2: total-(i+minValue)});
-            }
+            ai.viableSplits().forEach(x => actions.push(x));
         }
         return actions;
     }

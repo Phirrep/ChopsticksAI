@@ -2,7 +2,7 @@
     <div> 
         <b> Chopsticks AI Project </b>
     </div>
-    <label id="winnerDisplay" style="display:none; position: relative; top: 30px;"> Winner is </label>
+    <label id="winnerDisplay" style="display: none; position: relative; top: 30px;"> Winner is </label>
 </head>
 <body>
     <div id="aiState" style="position: absolute; top: 100px;">
@@ -27,7 +27,7 @@
             <div id="playerRightHand">1</div>
         </div>
     </div>
-    <div id="hand" style="position: absolute; top: 350px;">
+    <div id="hand" style="position: absolute; top: 350px; display: none;">
         <form>
             <label for="target">Target Hand</label>
             <select id="target" name="target">
@@ -42,11 +42,11 @@
                 <option id="attackRight" value="right">Right Hand</option>
             </select> 
         </form>
-        <button id="hit" onclick=playerHit() style="position: relative"> Hit </button>
+        <button id="hit" onclick=playerHit() style="position: relative;"> Hit </button>
     </div>
-    <div id="split" style="position: absolute; top: 350px; left: 200px;">
+    <div id="split" style="position: absolute; top: 350px; left: 200px; display: none;">
         <div class="slidercontainer">
-            <input type="range" min="1" max="5" value="1" class="slider" id="splitSlider" style="position: relative">
+            <input type="range" min="1" max="5" value="1" class="slider" id="splitSlider" style="position: relative;">
             <label id="splitValue">1:1</label>
         </div>
         <button onclick=playerSplit() style="position: relative"> Split </button>
