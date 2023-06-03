@@ -51,13 +51,12 @@ function playerSplit(){
 
 function startGame(){
     //need to set random player/opponent's turn to true
-   /*  if (Math.random() * 2 > 1){
+    if (Math.random() > 0.5){
         player.turn = true;
     }
     else{
         opponent.turn = true;
-    } */
-    player.turn = true;
+    }
     player.default();
     opponent.default();
     let aiForm = document.getElementById("ai");

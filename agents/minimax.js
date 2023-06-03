@@ -1,5 +1,5 @@
 class MinimaxAgent extends Agent{
-    constructor(ai, opponent, depth=5){
+    constructor(ai, opponent, depth=10){
         super(ai, opponent);
         this.depth = depth;
     }
@@ -24,7 +24,6 @@ class MinimaxAgent extends Agent{
     }
     findMove(state){
         let recursiveMinimax = (state, depth) => {
-            
             if (depth <= 0 || this.isTerminal(state)){
                 return {value: this.getStateValue(state)};
             }
@@ -47,10 +46,6 @@ class MinimaxAgent extends Agent{
                 }
                 let minValue = this.getMinimum(minStates);
                 if (minValue){
-                    if (depth == this.depth){
-                        console.log(minStates);
-                        console.log(minValue);
-                    }
                     minValue.action = actions[i];
                     maxStates.push(minValue);
                 }
