@@ -1,12 +1,12 @@
 class MinimaxRandomAgent extends MinimaxAgent{
-    constructor(ai, opponent, depth=7){
+    constructor(ai, opponent, depth=3){
         super(ai, opponent, depth);
     }
     getMaximum(states){
         let maxStates = [];
         let max = states[0].value;
         for (let i = 0; i < states.length; i++){
-            if (states[i] > max){
+            if (states[i].value > max){
                 maxStates = [];
                 max = states[i].value;
             }
@@ -14,13 +14,14 @@ class MinimaxRandomAgent extends MinimaxAgent{
                 maxStates.push(states[i]);
             }
         }
+
         return maxStates[Math.floor(Math.random() * maxStates.length)];
     }
     getMinimum(states){
         let minStates = [];
         let min = states[0].value;
         for (let i = 0; i < states.length; i++){
-            if (states[i] < min){
+            if (states[i].value < min){
                 minStates = [];
                 min = states[i].value;
             }
@@ -28,6 +29,7 @@ class MinimaxRandomAgent extends MinimaxAgent{
                 minStates.push(states[i]);
             }
         }
+        
         return minStates[Math.floor(Math.random() * minStates.length)];
     }
 }

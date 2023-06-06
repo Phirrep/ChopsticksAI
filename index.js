@@ -80,8 +80,8 @@ function updateSlider(){
     let splits = player.viableSplits();
     if (splits.length !== 0){
         document.getElementById("split").style.display = "";
-        let splits = player.viableSplits();
         let splitValue = document.getElementById("splitValue");
+        let splitSlider = document.getElementById("splitSlider");
 
         splitSlider.max = splits.length;
 
@@ -113,6 +113,8 @@ function progress(){
         gameAgent.findMove({ai: opponent.clone(), opponent: player.clone()});
         gameState.update();
         switchTurns();
+    }
+    if (!winner){
         window.requestAnimationFrame(progress);
     }
 }
