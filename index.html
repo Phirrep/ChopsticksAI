@@ -53,17 +53,20 @@
     </div>
     <div style="position: absolute; top: 0px; left: 500px;">
         <label>AI Agent</label>
+        <!-- Add different agent selections here -->
         <form>
             <select id="ai" name="ai" >
                 <option value="random">Random</option>
                 <option value="minimax">Minimax</option>
+                <option value="minimaxRandom">Minimax Random</option>
             </select>
         </form>
         <button id="select" onclick=startGame() style="position: relative"> Select </button>
     </div>
-    
+    <!-- Include different agent scripts and utils here -->
     <script src="utils/utils.js"></script>
     <script src="agents/random.js"></script>
     <script src="agents/minimax.js"></script>
+    <script src="agents/minimaxRandom.js"></script>
     <script src="index.js"></script>
 </body>
