@@ -1,5 +1,5 @@
 class MinimaxRandomAgent extends MinimaxAgent{
-    constructor(ai, opponent, depth=3){
+    constructor(ai, opponent, depth=7){
         super(ai, opponent, depth);
     }
     getMaximum(states){

@@ -26,17 +26,17 @@ function changeButtons(){
 function switchTurns(){
     player.turn = !player.turn;
     opponent.turn = !opponent.turn;
+    window.requestAnimationFrame(progress);
 }
 
 gameState.subscribe(changeButtons);
+gameState.subscribe(switchTurns);
 function playerHit(){
     let target = document.getElementById("target").value;
     let playerHand = document.getElementById("attack").value;
     player.hit(playerHand,target);
     console.log("You hit CPU's %s hand with %s hand", target, playerHand);
     gameState.update();
-    switchTurns();
-    window.requestAnimationFrame(progress);
 }
 function playerSplit(){
     let splitValue = document.getElementById("splitValue");
@@ -45,8 +45,6 @@ function playerSplit(){
     player.split(leftHand, rightHand);
     console.log("You split to %d fingers and %d fingers", leftHand, rightHand);
     gameState.update();
-    switchTurns();
-    window.requestAnimationFrame(progress);
 }
 
 function startGame(){
@@ -92,9 +90,10 @@ function updateSlider(){
     else{
         document.getElementById("split").style.display = "none";
     }
+    window.requestAnimationFrame(updateSlider);
 }
+updateSlider();
 function progress(){
-    updateSlider();
     if (winner || !player.alive || !opponent.alive){
         document.getElementById("split").style.display = "none";
         document.getElementById("hand").style.display = "none";
@@ -110,11 +109,11 @@ function progress(){
         console.log(winnerDisplay.innerHTML);
     }
     if (opponent.turn && !winner){
-        gameAgent.findMove({ai: opponent.clone(), opponent: player.clone()});
+        let ai = opponent.clone();
+        let opp = player.clone();
+        ai.opponent = opp;
+        opp.opponent = ai;
+        gameAgent.findMove({ai: ai, opponent: opp});
         gameState.update();
-        switchTurns();
-    }
-    if (!winner){
-        window.requestAnimationFrame(progress);
     }
 }

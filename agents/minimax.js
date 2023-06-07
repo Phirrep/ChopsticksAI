@@ -1,5 +1,5 @@
 class MinimaxAgent extends Agent{
-    constructor(ai, opponent, depth=2){
+    constructor(ai, opponent, depth=7){
         super(ai, opponent);
         this.depth = depth;
     }

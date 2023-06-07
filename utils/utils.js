@@ -60,9 +60,7 @@ class Player{
     }
     clone(){
         let newPlayer = new Player(null, this.hand1, this.hand2, this.turn, this.splitRule, this.splits);
-        let newOpponent = new Player(null, this.opponent.hand1, this.opponent.hand2, this.opponent.turn, this.opponent.splitRule, this.opponent.splits);
-        newPlayer.opponent = newOpponent;
-        newOpponent.opponent = newPlayer;
+
         return newPlayer;
     }
 }
