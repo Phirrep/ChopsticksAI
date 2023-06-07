@@ -57,5 +57,6 @@ class MinimaxAgent extends Agent{
         console.log(minimaxState.value);
         this.executeAction(minimaxState.action);
         this.printAction(minimaxState.action);
+        return minimaxState.action;
     }
 }
