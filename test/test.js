@@ -1,3 +1,7 @@
+let node = function(value, children){
+    return {value: value, children: children};
+}
+
 function testCase(str, f){
     let element = document.createElement("div");
     try{
@@ -38,8 +42,6 @@ function assert(exp){
         throw new Error("Assertion failed");
     }
 }
-
-
 
 
 testCase("Testing random agent", () => {

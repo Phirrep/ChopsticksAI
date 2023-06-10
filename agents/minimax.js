@@ -22,6 +22,9 @@ class MinimaxAgent extends Agent{
         }
         return min;
     }
+    switchState(state){
+        return {ai: state.opponent, opponent: state.ai}
+    }
     findMove(state){
         let recursiveMinimax = (state, depth) => {
             if (depth <= 0 || this.isTerminal(state)){
@@ -36,12 +39,12 @@ class MinimaxAgent extends Agent{
                     continue;
                 }
                 //get the state relevant to the mini agent
-                let minSuccessor = {ai: successor.opponent, opponent: successor.ai};
+                let minSuccessor = this.switchState(successor);
                 let minActions = this.getLegalActions(minSuccessor);
                 let minStates = [];
                 for (let j = 0; j < minActions.length; j++){
                     let successor2 = this.getSuccessor(minSuccessor, minActions[j]);
-                    let maxSuccessor = {ai: successor2.opponent, opponent: successor2.ai};
+                    let maxSuccessor = this.switchState(successor2);
                     minStates.push(recursiveMinimax(maxSuccessor, depth-1));
                 }
                 let minValue = this.getMinimum(minStates);
@@ -57,6 +60,6 @@ class MinimaxAgent extends Agent{
         console.log(minimaxState.value);
         this.executeAction(minimaxState.action);
         this.printAction(minimaxState.action);
-        return minimaxState.action;
+        return minimaxState;
     }
 }

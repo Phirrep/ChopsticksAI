@@ -7,6 +7,6 @@ class RandomAgent extends Agent{
         let action = actions[Math.floor(Math.random()*actions.length)];
         this.executeAction(action);  
         this.printAction(action);
-        return action;
+        return {value: this.getStateValue(this.getSuccessor(state, action)), action: action};
     }
 }
