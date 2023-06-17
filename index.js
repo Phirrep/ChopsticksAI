@@ -69,6 +69,9 @@ function startGame(){
     else if (aiForm.value == "minimaxRandom"){
         gameAgent = new MinimaxRandomAgent(opponent, player);
     }
+    else if (aiForm.value == "alphaBeta"){
+        gameAgent = new AlphaBetaAgent(opponent, player);
+    }
     else{
         gameAgent = new RandomAgent(opponent, player);
     }

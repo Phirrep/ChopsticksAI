@@ -1,9 +1,8 @@
-class MinimaxAgent extends Agent{
-    constructor(ai, opponent, depth=7){
+class AlphaBetaAgent extends Agent{
+    constructor(ai, opponent, depth=3){
         super(ai, opponent);
         this.depth = depth;
     }
-    //Assumes states have value
     getMaximum(states){
         let max = states[0];
         for (let i = 0; i < states.length; i++){
@@ -23,7 +22,9 @@ class MinimaxAgent extends Agent{
         return min;
     }
     findMove(state){
-        let recursiveMinimax = (state, depth) => {
+        //Alpha determines value at which maximizer state will not choose node
+        //Beta determines value at which minimizer will not choose node
+        let recursiveAlphaBeta = (state, depth, alpha, beta) => {
             if (depth <= 0 || this.isTerminal(state)){
                 return {value: this.getStateValue(state)};
             }
@@ -32,31 +33,46 @@ class MinimaxAgent extends Agent{
             for (let i = 0; i < actions.length; i++){
                 let successor = this.getSuccessor(state, actions[i]);
                 if (this.isTerminal(successor)){
-                    maxStates.push({value: this.getStateValue(successor), action: actions[i]});
+                    let value = this.getStateValue(successor);
+                    maxStates.push({value: value, action: actions[i]});
+                    alpha = alpha === null? value: Math.max(alpha, value);
                     continue;
                 }
-                //get the state relevant to the mini agent
+                
                 let minSuccessor = this.switchState(successor);
                 let minActions = this.getLegalActions(minSuccessor);
                 let minStates = [];
                 for (let j = 0; j < minActions.length; j++){
                     let successor2 = this.getSuccessor(minSuccessor, minActions[j]);
                     let maxSuccessor = this.switchState(successor2);
-                    minStates.push(recursiveMinimax(maxSuccessor, depth-1));
+                    let nextDepth = recursiveAlphaBeta(maxSuccessor, depth-1, alpha, beta);
+                    if (nextDepth.value < alpha){
+                        break;
+                    }
+                    beta = beta === null? nextDepth.value: Math.min(beta, nextDepth.value);
+                    minStates.push(nextDepth);
                 }
                 let minValue = this.getMinimum(minStates);
                 if (minValue){
+                    if (minValue.value > beta){
+                        break;
+                    }
                     minValue.action = actions[i];
                     maxStates.push(minValue);
+                    alpha = alpha === null? minValue.value: Math.max(alpha, minValue.value);
                 }
             }
             let maxValue = this.getMaximum(maxStates);
+            if (maxValue){
+                beta = beta === null? value: Math.min(beta, maxValue.value);
+            }
             return maxValue;
         }
-        let minimaxState = recursiveMinimax(state, this.depth);
-        console.log(minimaxState.value);
-        this.executeAction(minimaxState.action);
-        this.printAction(minimaxState.action);
-        return minimaxState;
+
+        let alphaBetaState = recursiveAlphaBeta(state, this.depth, null, null);
+        console.log(alphaBetaState.value);
+        this.executeAction(alphaBetaState.action);
+        this.printAction(alphaBetaState.action);
+        return alphaBetaState;
     }
 }

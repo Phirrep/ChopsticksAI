@@ -171,6 +171,9 @@ class Agent{
         let newState = {ai: ai, opponent: opp};
         return newState;
     }
+    switchState(state){
+        return {ai: state.opponent, opponent: state.ai};
+    }
     //action: hit (ourHand, opponentHand) or split (hand1, hand2)
     executeAction(action){
         if (action.action == "hit"){
