@@ -42,37 +42,37 @@ class AlphaBetaAgent extends Agent{
                 let minSuccessor = this.switchState(successor);
                 let minActions = this.getLegalActions(minSuccessor);
                 let minStates = [];
+                //Fresh new minimize node, must have no beta
+                beta = null;
                 for (let j = 0; j < minActions.length; j++){
                     let successor2 = this.getSuccessor(minSuccessor, minActions[j]);
                     let maxSuccessor = this.switchState(successor2);
                     let nextDepth = recursiveAlphaBeta(maxSuccessor, depth-1, alpha, beta);
+                    beta = beta === null? nextDepth.value: Math.min(beta, nextDepth.value);
                     if (nextDepth.value < alpha){
                         break;
                     }
-                    beta = beta === null? nextDepth.value: Math.min(beta, nextDepth.value);
                     minStates.push(nextDepth);
                 }
                 let minValue = this.getMinimum(minStates);
                 if (minValue){
+                    alpha = alpha === null? minValue.value: Math.max(alpha, minValue.value);
                     if (minValue.value > beta){
                         break;
                     }
                     minValue.action = actions[i];
                     maxStates.push(minValue);
-                    alpha = alpha === null? minValue.value: Math.max(alpha, minValue.value);
                 }
             }
+            console.log(maxStates);
             let maxValue = this.getMaximum(maxStates);
-            if (maxValue){
-                beta = beta === null? value: Math.min(beta, maxValue.value);
-            }
             return maxValue;
         }
 
         let alphaBetaState = recursiveAlphaBeta(state, this.depth, null, null);
-        console.log(alphaBetaState.value);
+        //console.log(alphaBetaState.value);
         this.executeAction(alphaBetaState.action);
-        this.printAction(alphaBetaState.action);
+        //this.printAction(alphaBetaState.action);
         return alphaBetaState;
     }
 }

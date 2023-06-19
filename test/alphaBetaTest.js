@@ -15,6 +15,7 @@ class AlphaBetaAgentTest extends AlphaBetaAgent{
         return state.children.length == 0;
     }
     getStateValue(state){
+        console.log(state.value);
         return state.value;
     }
     switchState(state){
@@ -55,7 +56,7 @@ testCase("Testing basic move finding for alphaBeta", () => {
 testCase("Testing basic move finding against a min agent (no pruning)", () => {
     /*
                                 max
-                        min             min
+                        min(2)          min(3)
                     7       2       4       3
     */
     let leaf1 = node(7, []);
@@ -65,11 +66,11 @@ testCase("Testing basic move finding against a min agent (no pruning)", () => {
     let min1 = node(0, [{node: leaf1, action: "left"}, {node: leaf2, action: "right"}]);
     let min2 = node(0, [{node: leaf3, action: "left"}, {node: leaf4, action: "right"}]);
     let max1 = node(0, [{node: min1, action: "left"}, {node: min2, action: "right"}]);
-
     let agent = new AlphaBetaAgentTest();
     let move = agent.findMove(max1);
-    assert(move.value == 3);
-    assert(move.action == "right");
+    console.log(max1);
+    assert(move.value == 3, "invalid value " + move.value);
+    assert(move.action == "right", "invalid action " + move.action);
 });
 testCase("Testing move finding with pruning", () => {
     /*                         max
@@ -90,20 +91,20 @@ testCase("Testing move finding with pruning", () => {
 
     let agent = new MinimaxAgentTest();
     let move = agent.findMove(max1);
-    assert(move.value == 2);
-    assert(move.action == "left");
+    assert(move.value == 2, "invalid minimax value " + move.value);
+    assert(move.action == "left", "invalid action " + move.action);
     agent = new AlphaBetaAgentTest();
     move = agent.findMove(max1);
-    console.log(move);
-    console.log(agent);
-    assert(move.value == 2);
-    assert(move.action == "left");
-    assert(leaf4.checked = true);
-    assert(leaf5.checked = false);
+    assert(move.value == 2, "invalid value " + move.value);
+    assert(move.action == "left", "invalid action " + move.action);
+    assert(leaf4.checked == true, "leaf with value 0 not checked");
+    assert(leaf5.checked == false, "leaf that should be pruned got checked");
 });
 testCase("Testing move finding with more advanced pruning", () => {
     /*                      max
-                min                         min
-        
+                min(4)                   min(X)
+        max(4)        max(X)      max            
+    1       4      7           2      1
     */
+    let leaf1 = node(2, []);
 });

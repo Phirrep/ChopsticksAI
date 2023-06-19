@@ -37,9 +37,9 @@ function checkState(state1, state2, f, condition={some: false, all: true}){
     return passed;
 }
 //throws failure if false
-function assert(exp){
+function assert(exp, message=""){
     if (!exp){
-        throw new Error("Assertion failed");
+        throw new Error("Assertion failed " + message);
     }
 }
 
